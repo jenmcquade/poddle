@@ -232,7 +232,13 @@ The plugin will integrate several features from **Podchaser's API**, along with 
 
 Podchaser's API documentation is available here:
 
-- <https://www.podchaser.com/profile/settings/api>
+- <https://api-docs.podchaser.com/docs/api/>
+
+The plugin must comply with Podchaser's Terms of Services available here:
+- <https://www.podchaser.com/terms.html>
+
+The plugin must comply with Podchaser Attribution Requirements available here:
+- <https://www.podchaser.com/terms.html#attribution-requirement>
 
 iTunes API documentation is available here:
 
