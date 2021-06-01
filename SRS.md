@@ -15,7 +15,6 @@ jen.k.mcquade@gmail.com
 </center>
 
 ---
-
 - [1.0 Introduction](#10-introduction)
 - [1.1 Purpose](#11-purpose)
 	- [Key Features](#key-features)
@@ -43,11 +42,58 @@ jen.k.mcquade@gmail.com
 	- [Internationalization and Accessibility](#internationalization-and-accessibility)
 - [3.0 Software Requirements](#30-software-requirements)
 - [3.1 Functional Requirements](#31-functional-requirements)
+	- [3.1.0 Database Design](#310-database-design)
+	- [3.1.1 WordPress Plugin Admin Pages](#311-wordpress-plugin-admin-pages)
+		- [Front Page Tab](#front-page-tab)
+		- [Options Page Tab](#options-page-tab)
+	- [3.1.2 Widgets](#312-widgets)
+		- [Page and Post Modifiers](#page-and-post-modifiers)
+		- [Login With Podchaser](#login-with-podchaser)
+		- [Rating For This Episode](#rating-for-this-episode)
+		- [Reviews For This Episode](#reviews-for-this-episode)
+		- [Rating For This Podcast](#rating-for-this-podcast)
+		- [Reviews For This Podcast](#reviews-for-this-podcast)
+		- [Post A New Podcast Rating and Review](#post-a-new-podcast-rating-and-review)
+		- [Post A New Episode Rating and Review](#post-a-new-episode-rating-and-review)
+		- [Bookmark Episode](#bookmark-episode)
+		- [Mark Episode as Listened](#mark-episode-as-listened)
+		- [Credits For This Episode](#credits-for-this-episode)
+		- [Search For Guests](#search-for-guests)
+		- [Podcast or Episode Suggestions](#podcast-or-episode-suggestions)
+		- [Podcast and Episode Playlists By Podchaser Playlist ID](#podcast-and-episode-playlists-by-podchaser-playlist-id)
+	- [3.1.3 Short Code Operations](#313-short-code-operations)
+		- [Rating For An Episode](#rating-for-an-episode)
+		- [Reviews For An Episode](#reviews-for-an-episode)
+		- [Inline Form: Post A New Podcast Rating and Review](#inline-form-post-a-new-podcast-rating-and-review)
+		- [Inline Form: Post A New Episode Rating and Review](#inline-form-post-a-new-episode-rating-and-review)
+		- [Inline Form: Bookmark An Episode](#inline-form-bookmark-an-episode)
+		- [Inline Form: Mark An Episode As Listened](#inline-form-mark-an-episode-as-listened)
+		- [Inline Form: Search For Guests](#inline-form-search-for-guests)
+		- [Credits For An Episode](#credits-for-an-episode)
+		- [Podcast or Episode Suggestions](#podcast-or-episode-suggestions-1)
+		- [Podcast and Episode Playlists By Podchaser Playlist ID](#podcast-and-episode-playlists-by-podchaser-playlist-id-1)
+	- [3.1.4 Comment Form Modifier For Ratings and Reviews](#314-comment-form-modifier-for-ratings-and-reviews)
+	- [3.1.5 Inline Form For Ratings and Reviews](#315-inline-form-for-ratings-and-reviews)
+	- [3.1.6 'Creator' Custom Post Type](#316-creator-custom-post-type)
 - [3.2 External Interface Requirements](#32-external-interface-requirements)
+	- [3.2.1 iTunes API for Reviews](#321-itunes-api-for-reviews)
+	- [3.2.2 Podchaser API](#322-podchaser-api)
+		- [3.2.2.1 Queries](#3221-queries)
+		- [3.2.2.2 Mutations](#3222-mutations)
 - [3.3 Features](#33-features)
+	- [3.2.1 Podchaser Single Sign On](#321-podchaser-single-sign-on)
+	- [3.2.2 Podchaser Ratings and Reviews Reads](#322-podchaser-ratings-and-reviews-reads)
+	- [3.2.3 iTunes Podcast Ratings and Reviews Reads](#323-itunes-podcast-ratings-and-reviews-reads)
+	- [3.2.4 Podchaser Ratings and Reviews Creation](#324-podchaser-ratings-and-reviews-creation)
+	- [3.2.5 Guest and Creator Credits Roster](#325-guest-and-creator-credits-roster)
+	- [3.2.6 Show and Episode Playlists By Podchaser Playlist ID](#326-show-and-episode-playlists-by-podchaser-playlist-id)
+	- [3.2.7 Podcast and Episode Suggestions](#327-podcast-and-episode-suggestions)
 - [3.4 Nonfunctional Requirements](#34-nonfunctional-requirements)
+	- [3.4.1 Podchaser Query Costs](#341-podchaser-query-costs)
+	- [3.4.2 Performance](#342-performance)
+	- [3.4.3 Quality and Code Coverage](#343-quality-and-code-coverage)
+	- [3.4.4 Security](#344-security)
 - [Revision History](#revision-history)
-
 ---
 
 ### 1.0 Introduction
@@ -177,6 +223,8 @@ OAuth authentication with the Podchaser API will provide the means of querying a
 - **Podcast**: A syndicated content stream that uses Really Simple Syndication (RSS) for publishing rich media.
 - **WordPress**: An Open Source PHP content management framework
 
+---
+
 ### 2.0 Overview
 
 #### A Brief History
@@ -235,9 +283,11 @@ Podchaser's API documentation is available here:
 - <https://api-docs.podchaser.com/docs/api/>
 
 The plugin must comply with Podchaser's Terms of Services available here:
+
 - <https://www.podchaser.com/terms.html>
 
 The plugin must comply with Podchaser Attribution Requirements available here:
+
 - <https://www.podchaser.com/terms.html#attribution-requirement>
 
 iTunes API documentation is available here:
@@ -278,43 +328,145 @@ GraphQL documentation can be found here:
 
 Minimal effort will be taken within the initial release of the plugin to provide i18n or text reader support. Where appropriate, WordPress text domains will be used in formatted output strings, so that others Open Source contributors may provide localization in their language.  Where it is helpful and meaningful for the frontend interface, ARIA labeling will be used in the formatting of HTML.
 
+---
+
 ### 3.0 Software Requirements
 
-### 3.1 Functional Requirements
-<!---
-Functional requirements are essential to building your product.
+Software requirements will have responsibilities in the following areas:
 
-If you’re developing a medical device, these requirements may include infusion and battery. And within these functional requirements, you may have a subset of risks and requirements. 
--->
+- **Functional Requirements**, which are specified here as requirements of the plugin that do not have any external dependencies outside of WordPress.
+- **External Interface Requirements** which are specified here as requirements that the plugin has in the consumption of external resources. Specifically, these resources are the **iTunes API** and **Podchaser API**.
+- **Features** which are specified here as requirements for the behavior of the plugin's individual components when implemented together.
+- **Nonfunctional Requirements** which are specified here as broader quality and security requirements for the plugin.
+
+---
+
+### 3.1 Functional Requirements
+
+---
+
+#### 3.1.0 Database Design
+
+---
+
+#### 3.1.1 WordPress Plugin Admin Pages
+
+##### Front Page Tab
+
+##### Options Page Tab
+
+---
+
+#### 3.1.2 Widgets
+
+##### Page and Post Modifiers
+
+##### Login With Podchaser
+
+##### Rating For This Episode
+
+##### Reviews For This Episode
+
+##### Rating For This Podcast
+
+##### Reviews For This Podcast
+
+##### Post A New Podcast Rating and Review
+
+##### Post A New Episode Rating and Review
+
+##### Bookmark Episode
+
+##### Mark Episode as Listened
+
+##### Credits For This Episode
+
+##### Search For Guests
+
+##### Podcast or Episode Suggestions
+
+##### Podcast and Episode Playlists By Podchaser Playlist ID
+
+---
+
+#### 3.1.3 Short Code Operations
+
+##### Rating For An Episode
+
+##### Reviews For An Episode
+
+##### Inline Form: Post A New Podcast Rating and Review
+
+##### Inline Form: Post A New Episode Rating and Review
+
+##### Inline Form: Bookmark An Episode
+
+##### Inline Form: Mark An Episode As Listened
+
+##### Inline Form: Search For Guests
+
+##### Credits For An Episode
+
+##### Podcast or Episode Suggestions
+
+##### Podcast and Episode Playlists By Podchaser Playlist ID
+
+---
+
+#### 3.1.4 Comment Form Modifier For Ratings and Reviews
+
+---
+
+#### 3.1.5 Inline Form For Ratings and Reviews
+
+---
+
+#### 3.1.6 'Creator' Custom Post Type
+
+---
 
 ### 3.2 External Interface Requirements
-<!---
-External interface requirements are types of functional requirements. They’re important for embedded systems. And they outline how your product will interface with other components.
 
-There are several types of interfaces you may have requirements for, including:
+---
 
-User
-Software
-Communications 
---->
+#### 3.2.1 iTunes API for Reviews
+
+#### 3.2.2 Podchaser API
+
+##### 3.2.2.1 Queries
+
+##### 3.2.2.2 Mutations
+
+---
 
 ### 3.3 Features
 
-<!--- 
-System features are types of functional requirements. These are features that are required in order for a system to function. 
---->
+#### 3.2.1 Podchaser Single Sign On
+
+#### 3.2.2 Podchaser Ratings and Reviews Reads
+
+#### 3.2.3 iTunes Podcast Ratings and Reviews Reads
+
+#### 3.2.4 Podchaser Ratings and Reviews Creation
+
+#### 3.2.5 Guest and Creator Credits Roster
+
+#### 3.2.6 Show and Episode Playlists By Podchaser Playlist ID
+
+#### 3.2.7 Podcast and Episode Suggestions
+
+---
 
 ### 3.4 Nonfunctional Requirements
-<!--- 
-Nonfunctional requirements can be just as important as functional ones.
 
-These include:
+#### 3.4.1 Podchaser Query Costs
 
-Performance
-Safety
-Security
-Quality
-The importance of this type of requirement may vary depending on your industry. Safety requirements, for example, will be critical in the medical device industry.
---->
+#### 3.4.2 Performance
+
+#### 3.4.3 Quality and Code Coverage
+
+#### 3.4.4 Security
+
+---
 
 ### Revision History
