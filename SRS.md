@@ -10,11 +10,13 @@
 ### Document Version 1.0.0 <!-- omit in toc -->
 
 Authored By Jen McQuade
+
 jen.k.mcquade@gmail.com
 
 </center>
 
----
+ ---
+
 - [1.0 Introduction](#10-introduction)
 - [1.1 Purpose](#11-purpose)
 	- [Key Features](#key-features)
