@@ -1,0 +1,84 @@
+{
+  "settings": {
+    "sections": [
+      {
+        "id": "podchaser_general",
+        "title": "Podchaser Environment",
+        "callback": "",
+        "callback_args": [],
+        "page": "poddle-settings",
+        "fields": [
+          {
+            "id": "podchaser_env",
+            "title": "Environment",
+            "type": "select",
+            "label": "Select the Podchaser API environemnt",
+            "default_value": "development",
+            "is_multi_value": true,
+            "options": [
+              {
+                "value": "production",
+                "title": "Production"
+              },
+              {
+                "value": "development",
+                "title": "Development"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "podchaser_settings_development",
+        "title": "Development Client",
+        "callback": "",
+        "callback_args": [],
+        "page": "poddle-settings",
+        "fields": [
+          {
+            "id": "podchaser_dev_secret",
+            "title": "Secret",
+            "type": "textfield",
+            "label": "Podchaser Development Secret",
+            "is_multi_value": false,
+            "default_value": ""
+          },
+          {
+            "id": "podchaser_dev_key",
+            "title": "Key",
+            "type": "textfield",
+            "label": "Podchaser Development Key",
+            "is_multi_value": false,
+            "default_value": ""
+          }
+        ]
+      },
+      {
+        "id": "podchaser_settings_production",
+        "title": "Production Client",
+        "callback": "Fields::section",
+        "callback_args": [],
+        "page": "poddle-settings",
+        "fields": [
+          {
+            "id": "podchaser_prod_secret",
+            "title": "Secret",
+            "type": "textfield",
+            "label": "Podchaser Production Secret",
+            "callback": "Fields::text_input",
+            "is_multi_value": false,
+            "default_value": ""
+          },
+          {
+            "id": "podchaser_prod_key",
+            "title": "Key",
+            "type": "textfield",
+            "label": "Podchaser Production Key",
+            "is_multi_value": false,
+            "default_value": ""
+          }
+        ]
+      }
+    ]
+  }
+}

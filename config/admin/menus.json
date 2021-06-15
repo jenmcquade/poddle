@@ -1,0 +1,42 @@
+{
+  "menus": [
+    {
+      "group": "plugins",
+      "type": "plugin-links",
+      "links": [
+        {
+          "page": "poddle",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "group": "poddle",
+      "type": "menu-group",
+      "pages": [
+        {
+          "id": "home",
+          "capability": "manage_options",
+          "page_title": "Poddle",
+          "menu_title": "Poddle",
+          "menu_slug": "poddle",
+          "partial": "admin-main",
+          "icon": "dashicons-screenoptions",
+          "weight": 100,
+          "parent_slug": ""
+        },
+        {
+          "id": "settings",
+          "capability": "manage_options",
+          "page_title": "Pochaser Settings",
+          "menu_title": "Podchaser API",
+          "menu_slug": "podchaser-settings",
+          "partial": "admin-settings",
+          "icon": "",
+          "weight": 100,
+          "parent_slug": "poddle"
+        }
+      ]
+    }
+  ]
+}
